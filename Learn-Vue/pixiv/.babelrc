@@ -1,0 +1,41 @@
+{
+  "sourceMaps": true,
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-async-to-generator",
+    [
+      "transform-es2015-modules-commonjs",
+      {
+        "allowTopLevelThis": true
+      }
+    ],
+    [
+      "transform-runtime",
+      {
+        "polyfill": true,
+        "regenerator": true
+      }
+    ],
+    "transform-object-rest-spread"
+  ],
+  "comments": false,
+  "env": {
+    "test": {
+      "presets": [
+        "env",
+        "stage-2"
+      ],
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
+}
