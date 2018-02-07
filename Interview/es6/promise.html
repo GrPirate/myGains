@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Promise</title>
+</head>
+
+<body>
+  <script>
+    // es5实现Promise
+    function Xpromise(fn) {
+      this.value;
+      this.status = 'pending' // 
+      this.resolveFunc = function () {};
+      this.rejectFunc = function () {};
+      fn(this.resolve.bind(this), this.reject.bind(this));
+    }
+
+    Xpromise.prototype.resolve = function (value) {
+      if (this.status === 'pending') {
+        this.status = 'resolved';
+        this.value = value;
+        setTimeout(() => this.resolveFunc(value), 0);
+      }
+    }
+
+    Xpromise.prototype.reject = function (value) {
+      if (this.status === 'pending') {
+        this.status = 'rejected';
+        this.value = value;
+        setTimeout(() => this.rejectFunc(value), 0);
+      }
+    }
+
+    Xpromise.prototype.then = function (resolve, reject) {
+      var that = this;
+      return new Xpromise(function (resolve_next, reject_next) {
+        function resolveWrap() {
+          var result = resolve(that.value);
+          if (result && typeof result.then === 'function') {
+            //如果result是MyPromise对象，则通过then将resolve_next和reject_next传给它
+            result.then(resolve_next, reject_next);
+          } else {
+            //如果result是其他对象，则作为参数传给resolve_next
+            resolve_next(result);
+          }
+        }
+
+        function rejectWrap() {
+          var result = reject(that.value);
+          if (result && typeof result.then === 'function') {
+            //如果result是MyPromise对象，则通过then将resolve_next和reject_next传给它
+            result.then(resolve_next, reject_next);
+          } else {
+            //如果result是其他对象，则作为参数传给resolve_next
+            resolve_next(result);
+          }
+        }
+        that.resolveFunc = resolveWrap;
+        that.rejectFunc = rejectWrap;
+      })
+    }
+
+    // 测试
+    var p = new Xpromise(function (resolve, reject) {
+      var num = Math.random() * 10;
+      setTimeout(() => num > 6 ? resolve('this num greater than 6') : reject('this num less than 6'), 0);
+    })
+
+    p.then(function (val) {
+      console.log('resolve', val);
+      return new Xpromise(function (res, rej) {
+        var num = Math.random() * 10;
+        setTimeout(() => num > 6 ? res('second') : rej('rej'), 0);
+      })
+    }, function (err) {
+      console.log('reject', err);
+    }).then(function(data){
+      console.log('resolve2', data);
+    }, function (err) {
+      console.log('reject', err);
+    })
+    // 测试end
+  </script>
+</body>
+
+</html>

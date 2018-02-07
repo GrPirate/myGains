@@ -11,13 +11,21 @@
 <body>
     <script type="text/javascript">
         // 第一种方式：字面量
-        var o1 = { name: 'o1' };
-        var o2 = new Object({ name: 'o2' });
+        var o1 = {
+            name: 'o1'
+        };
+        var o2 = new Object({
+            name: 'o2'
+        });
         // 第二种方式：构造函数
-        var M = function (name) { this.name = name; };
+        var M = function (name) {
+            this.name = name;
+        };
         var o3 = new M('o3');
         // 第三种方式：Object.create
-        var p = { name: 'p' };
+        var p = {
+            name: 'p'
+        };
         var o4 = Object.create(p);
 
         M.prototype.say = function () {
@@ -36,8 +44,29 @@
                 return o;
             }
         };
+    </script>
+
+    <script>
+        (function () {
+            var jQuery = function (name, age) {
+                return new jQuery.fn.init(name, age);
+            }
+
+            jQuery.fn = jQuery.prototype = {
 
 
+                init: function (name, age) {
+                    this.name = name;
+                    this.age = age;
+                },
+
+                oo: 'hello world'
+            }
+
+            jQuery.fn.init.prototype = jQuery.prototype;
+
+            window.jQuery = jQuery;
+        })()
     </script>
 </body>
 
