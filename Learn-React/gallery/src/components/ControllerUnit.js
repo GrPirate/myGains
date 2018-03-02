@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 class ControllerUnit extends Component{
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
   }
   handleClick = function (e) {
 
@@ -19,13 +20,14 @@ class ControllerUnit extends Component{
   }
   render() {
     let controlelrUnitClassName = "controller-unit";
+    const { isCenter, isInverse } = this.props.arrange;
     
     // 如果对应的是居中的图片，显示控制按钮的居中态
-    if (this.props.arrange.isCenter) {
+    if (isCenter) {
       controlelrUnitClassName += " is-center";
 
       // 如果同时对应的是翻转图片， 显示控制按钮的翻转态
-      if (this.props.arrange.isInverse) {
+      if (isInverse) {
         controlelrUnitClassName += " is-inverse";
       }
     }

@@ -1,11 +1,7 @@
-'use strict';
-
-var React = require('react/addons');
-
-// CSS
-require('normalize.css');
-require('../styles/main.scss');
-
+import React, { Component } from 'react'
+import ReactDom from 'react-dom'
+import ImgFigure from './ImgFigure'
+import ControllerUnit from './ControllerUnit'
 // 获取图片相关的数据
 var imageDatas = require('../data/imageDatas.json');
 
@@ -36,17 +32,15 @@ function get30DegRandom() {
   return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
 }
 
-
-import React, { Component } from 'react'
-import ImgFigure from './ImgFigure'
-import ControllerUnit from './ControllerUnit'
-
 class GalleryByReactApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imgsArrangeArr: []
     }
+    this.inverse = this.inverse.bind(this);
+    this.rearrange = this.rearrange.bind(this);
+    this.center = this.center.bind(this);
   }
 
   Constant = {
@@ -70,8 +64,7 @@ class GalleryByReactApp extends Component {
    * @param index 传入当前被执行inverse操作的图片对应的图片信息数组的index值
    * @returns {Function} 这是一个闭包函数, 其内return一个真正待被执行的函数
    */
-  inverse = function (index) {
-    return function () {
+  inverse (index) {
       var imgsArrangeArr = this.state.imgsArrangeArr;
 
       imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
@@ -79,19 +72,16 @@ class GalleryByReactApp extends Component {
       this.setState({
         imgsArrangeArr: imgsArrangeArr
       });
-    }.bind(this);
   };
 
   /*
    * 重新布局所有图片
    * @param centerIndex 指定居中排布哪个图片
    */
-  rearrange = function (centerIndex) {
+  rearrange(centerIndex) {
+    const { centerPos, hPosRange, vPosRange } = this.Constant;
+    
     var imgsArrangeArr = this.state.imgsArrangeArr,
-      Constant = this.Constant,
-      centerPos = Constant.centerPos,
-      hPosRange = Constant.hPosRange,
-      vPosRange = Constant.vPosRange,
       hPosRangeLeftSecX = hPosRange.leftSecX,
       hPosRangeRightSecX = hPosRange.rightSecX,
       hPosRangeY = hPosRange.y,
@@ -103,7 +93,6 @@ class GalleryByReactApp extends Component {
       topImgSpliceIndex = 0,
 
       imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
-
     // 首先居中 centerIndex 的图片, 居中的 centerIndex 的图片不需要旋转
     imgsArrangeCenterArr[0] = {
       pos: centerPos,
@@ -128,8 +117,8 @@ class GalleryByReactApp extends Component {
     });
 
     // 布局左右两侧的图片
-    for (var i = 0, j = imgsArrangeArr.length, k = j / 2; i < j; i++) {
-      var hPosRangeLORX = null;
+    for (let i = 0, j = imgsArrangeArr.length, k = j / 2; i < j; i++) {
+      let hPosRangeLORX = null;
 
       // 前半部分布局左边， 右半部分布局右边
       if (i < k) {
@@ -165,24 +154,22 @@ class GalleryByReactApp extends Component {
    * @param index, 需要被居中的图片对应的图片信息数组的index值
    * @returns {Function}
    */
-  center = function (index) {
-    return function () {
+  center (index) {
       this.rearrange(index);
-    }.bind(this);
   };
 
   // 组件加载以后， 为每张图片计算其位置的范围
   componentDidMount = function () {
 
     // 首先拿到舞台的大小
-    var stageDOM = React.findDOMNode(this.refs.stage),
+    let stageDOM = ReactDom.findDOMNode(this.refs.stage),
       stageW = stageDOM.scrollWidth,
       stageH = stageDOM.scrollHeight,
       halfStageW = Math.ceil(stageW / 2),
       halfStageH = Math.ceil(stageH / 2);
 
     // 拿到一个imageFigure的大小
-    var imgFigureDOM = React.findDOMNode(this.refs.imgFigure0),
+    let imgFigureDOM = ReactDom.findDOMNode(this.refs.imgFigure0),
       imgW = imgFigureDOM.scrollWidth,
       imgH = imgFigureDOM.scrollHeight,
       halfImgW = Math.ceil(imgW / 2),
@@ -195,18 +182,17 @@ class GalleryByReactApp extends Component {
     };
 
     // 计算左侧，右侧区域图片排布位置的取值范围
-    this.Constant.hPosRange.leftSecX[0] = -halfImgW;
-    this.Constant.hPosRange.leftSecX[1] = halfStageW - halfImgW * 3;
-    this.Constant.hPosRange.rightSecX[0] = halfStageW + halfImgW;
-    this.Constant.hPosRange.rightSecX[1] = stageW - halfImgW;
-    this.Constant.hPosRange.y[0] = -halfImgH;
-    this.Constant.hPosRange.y[1] = stageH - halfImgH;
-
+    this.Constant.hPosRange = {
+      leftSecX: [-halfImgW, halfStageW - halfImgW * 3],
+      rightSecX: [halfStageW + halfImgW, stageW - halfImgW],
+      y: [-halfImgH, stageH - halfImgH]
+    }
+    
     // 计算上侧区域图片排布位置的取值范围
-    this.Constant.vPosRange.topY[0] = -halfImgH;
-    this.Constant.vPosRange.topY[1] = halfStageH - halfImgH * 3;
-    this.Constant.vPosRange.x[0] = halfStageW - imgW;
-    this.Constant.vPosRange.x[1] = halfStageW;
+    this.Constant.vPosRange = {
+      topY: [-halfImgH, halfStageH - halfImgH * 3],
+      x: [halfStageW - imgW, halfStageW]
+    }
 
     this.rearrange(0);
 
@@ -214,7 +200,7 @@ class GalleryByReactApp extends Component {
 
   render() {
 
-    var controllerUnits = [],
+    let controllerUnits = [],
       imgFigures = [];
 
     imageDatas.forEach(function (value, index) {
@@ -237,16 +223,16 @@ class GalleryByReactApp extends Component {
           data={value}
           ref={'imgFigure' + index}
           arrange={this.state.imgsArrangeArr[index]}
-          inverse={this.inverse(index)}
-          center={this.center(index)}
+          inverse={() =>this.inverse(index)}
+          center={() =>this.center(index)}
         />);
 
       controllerUnits.push(
         < ControllerUnit
           key={index}
           arrange={this.state.imgsArrangeArr[index]}
-          inverse={this.inverse(index)}
-          center={this.center(index)}
+          inverse={() =>this.inverse(index)}
+          center={() =>this.center(index)}
         />);
     }.bind(this));
 
@@ -262,3 +248,5 @@ class GalleryByReactApp extends Component {
     );
   }
 }
+
+export default GalleryByReactApp
