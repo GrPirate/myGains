@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>bubbly</title>
+</head>
+
+<body>
+  <style>
+    html,
+    body,
+    ul,
+    li,
+    p,
+    img {
+      margin: 0;
+      padding: 0;
+    }
+
+    html * {
+      font-size: 15px;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    body {
+      background: #F5F5F5;
+    }
+
+    .pull-l {
+      float: left;
+    }
+
+    .pull-r {
+      float: right;
+    }
+
+    /*聊天气泡*/
+
+    .bubbly {
+      display: inline-block;
+      max-width: 220px;
+      min-height: 20px;
+      background: #fff;
+      border-radius: 5px;
+      padding: 8px 10px;
+      position: relative;
+      border: 1px solid #EDEDED;
+    }
+
+    .bubbly::after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+    }
+
+    .chat {
+      width: 100%
+    }
+
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-box li {
+      padding: 10px;
+    }
+
+    .chat-box div {
+      position: relative;
+    }
+
+    /* 
+    .chat-box li:nth-of-type(2n) {
+      background: red;
+    }
+
+    .chat-box li:nth-of-type(2n+1) {
+      background: yellow;
+    } */
+
+    .chat .chat-head {
+      width: 45px;
+      height: 40px;
+      display: inline-block;
+      position: absolute;
+    }
+
+    .chat-others .bubbly {
+      left: 60px;
+    }
+
+    .chat-others .bubbly::after {
+      border-right-color: #fff;
+      top: 12px;
+      left: -12px;
+    }
+
+    .chat-others .bubbly::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 7px solid transparent;
+      border-right-color: #EDEDED;
+      top: 11px;
+      left: -14px;
+    }
+
+    .chat-myself .chat-head {
+      right: 0;
+    }
+
+    .chat-myself .bubbly {
+      right: 60px;
+      background: #98E165;
+    }
+
+    .chat-myself .bubbly::after {
+      border-left-color: #98E165;
+      top: 12px;
+      right: -12px;
+    }
+  </style>
+
+  <section class="chat">
+    <ul class="chat-box">
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="sz.jpg" alt="" class="chat-head">
+          <span class="bubbly">打扫房间施工技术的分类管理是否经过了看见对方考虑代付款关键时刻六都放假刚看了就看六都放假刚看了进来时大家分开了国家看来大家发个抗裂砂浆</span>
+        </div>
+      </li>
+      <li class="chat-others">
+        <div class="pull-l">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">好久不见</span>
+        </div>
+      </li>
+      <li class="chat-myself">
+        <div class="pull-r">
+          <img src="fq.png" alt="" class="chat-head">
+          <span class="bubbly">who are you</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+</body>
+
+</html>

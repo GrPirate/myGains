@@ -17,7 +17,8 @@
       width: 100px;
       height: 100px;
     }
-
+    
+    /* 采用伪类元素在元素前后添加样式 */
     .heart:before,
     .heart:after{
       content: '';
@@ -30,8 +31,8 @@
       background: red;
     }
 
-    .heart:after{
-      top: -50;
+    .heart::after{
+      top: -50px;
       left:0;
     }
   </style>
