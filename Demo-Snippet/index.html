@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>box-shadow</title>
+</head>
+
+<body>
+  <input id="file" type="file" name="选择图片"/>
+  <canvas id="c" width="960" height="480"></canvas>
+  <script>
+    const $input = document.getElementById('file');
+    const $canvas = document.getElementById('c');
+
+    $input.addEventListener('change', ({target: {files: [file]}}) => {
+      let $img = new Image();
+      let context = $canvas.getContext('2d')
+
+      $img.addEventListener('load', _=> {
+        context.drawImage($img, 0, 0, $img.width, $img.height)
+        let pixel = context.getImageData(0, 0, $img.width, $img.height)
+        console.log(pixel)
+      })
+      $img.src = URL.createObjectURL(file)
+    })
+  </script>
+</body>
+
+</html>
