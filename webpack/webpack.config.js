@@ -1,27 +1,33 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const webpack = require('webpack')
 
 module.exports = {
-  entry: {
-    app: './src/index.js'
-  },
-  // devtool: 'inline-source-map',
-  // devServer: {
-  //   contentBase: './dist',
-  //   hot: true
-  // },
+  entry: './src/index.js',
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'Output Management'
     })
-    // new webpack.HotModuleReplacementPlugin()
   ],
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
+  },
+  optimization: {
+    // splitChunks: {
+    //   chunks: 'all'
+    // }
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   }
 }
