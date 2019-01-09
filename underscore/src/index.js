@@ -1,6 +1,6 @@
-import assign from '@js/assign'
 import contains from '@js/contains'
 import extendOwn from '@js/extendOwn'
+import assign from '@js/assign'
 import findIndex from '@js/findIndex'
 import identity from '@js/identity'
 import include from '@js/include'

@@ -1,4 +1,4 @@
-import createPredicateIndexFinder from '../utils/createPredicateIndexFinder'
+import createPredicateIndexFinder from '@utils/createPredicateIndexFinder'
 
 const findIndex = createPredicateIndexFinder(1)
 

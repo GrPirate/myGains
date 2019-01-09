@@ -1,4 +1,4 @@
-import assign from './assign'
+import assign from '@js/assign'
 
 const extendOwn = assign
 
