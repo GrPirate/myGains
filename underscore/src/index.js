@@ -31,6 +31,8 @@ import matches from '@js/matches'
 import property from '@js/property'
 import sortedIndex from '@js/sortedIndex'
 import values from '@js/values'
+import each from '@js/each'
+import forEach from '@js/forEach'
 const VERSION = '1.0.0'
 
 export {
@@ -65,5 +67,7 @@ export {
   sortedIndex,
   values,
   isArray,
-  isMatch
+  isMatch,
+  each,
+  forEach
 }
