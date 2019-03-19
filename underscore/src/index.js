@@ -33,6 +33,12 @@ import sortedIndex from '@js/sortedIndex'
 import values from '@js/values'
 import each from '@js/each'
 import forEach from '@js/forEach'
+import map from '@js/map'
+import reduce from '@js/reduce'
+import foldl from '@js/foldl'
+import inject from '@js/inject'
+import reduceRight from '@js/reduceRight'
+import foldr from '@js/foldr'
 const VERSION = '1.0.0'
 
 export {
@@ -69,5 +75,12 @@ export {
   isArray,
   isMatch,
   each,
-  forEach
+  forEach,
+  map,
+  collect,
+  reduce,
+  foldl,
+  inject,
+  reduceRight,
+  foldr
 }

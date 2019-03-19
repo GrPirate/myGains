@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 一个关于this，箭头函数的简单例子 -->
+    <script>
+      let times = 0
+      let timeId = setInterval(function() {
+        times += 1
+      }, 1000)
+      let testUserTime = function (time) {
+        this.userTime = time || 30
+        this.init = 0
+        let _isToWeb = false
+        this.time = () => {
+          console.log('time', this.init)
+          this.init += 1;
+          if (this.init === this.userTime) {
+            if (!_isToWeb) {
+              console.log('WebExit: ', times)
+              _isToWeb = true;
+            }
+          }
+        }
+        this.eventFun = function () {
+          this.clearTestUserTime()
+          this.init = 0;
+          this.testUser = setInterval(this.time, 1000);
+        }
+
+        this.testUser = setInterval(this.time, 1000);
+        const body = document.querySelector('html');
+        const button = document.createElement('button')
+        button.innerText = 'clear'
+        button.onclick = (e) => {
+          e.stopPropagation()
+          this.clearTestUserTime()
+        }
+        body.appendChild(button)
+        body.addEventListener('click', (e) => {
+          console.log(times)
+            _isToWeb = true;
+          this.eventFun();
+        });
+        this.clearTestUserTime = () => {
+          console.log(this)
+          clearInterval(this.testUser)
+        }
+      }
+
+      window.obj = new testUserTime(5)
+    </script>
+  </body>
+</html>
