@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .loading {
+      position: relative;
+      width: 240px;
+      height: 240px;
+    }
+    #progress {
+      /* stroke-dasharray: 100px; */
+      stroke-dashoffset: 100px;
+      /* animation: progressAnimation 600ms linear infinite; */
+    }
+    /* @keyframes progressAnimation {
+    from {
+      stroke-dashoffset: 100px;
+    }
+    to {
+      stroke-dashoffset: 300px;
+    }} */
+
+    .donut__copy {
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      padding-top: 68px;
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
+
+    .donut__title,
+    .donut__secondary {
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+
+    .donut__title,
+    .donut__spic {
+      color: #8a6fd5;
+      font-weight: 200;
+    }
+
+    .donut__title {
+      font-size: 79px;
+      position: relative;
+      animation: donutTitleFadeLeft 800ms 200ms cubic-bezier(.99,.01,.22,.94) forwards;
+      opacity: 0;
+      transform: translateX(0);
+    }
+
+    .donut__spic {
+      position: absolute;
+      top: 20px;
+      font-size: 30px;
+      line-height: 1em;
+      content: "%";
+      animation: donutTitleFadeRight 800ms 200ms cubic-bezier(.99,.01,.22,.94) forwards;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    @keyframes donutTitleFadeLeft {
+      from {
+        opacity: 0;
+        transform: translateX(0);
+      }
+      
+      to {
+        opacity: 1;
+        transform: translateX(-10px);
+      }
+    }
+
+    @keyframes donutTitleFadeRight {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .donut__svg__circle--one {
+      stroke-dasharray: 565.48668;
+      stroke-dashoffset: 565.48668;
+      /* transition: stroke-dashoffset 16ms; */
+      /* transition: stroke-dashoffset 200ms cubic-bezier(0.99, 0.01, 0.62, 0.94); */
+    }
+    .donut__svg {
+      transform: rotate(-90deg);
+    }
+  </style>
+  
+  <div class="loading">
+    <svg width="240" height="240" xmlns="http://www.w3.org/2000/svg" class="donut__svg">
+      <circle id="backdrop" r="90" cy="120" cx="120" stroke-width="3" stroke="#333" fill="none"/>
+      <circle id="progress" class="donut__svg__circle--one" r="90" cy="120" cx="120" stroke-width="4" stroke="url(#purple)" stroke-linejoin="round" stroke-linecap='round' fill="none"/>
+      <defs>
+          <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ce6e6e" />
+              <stop offset="100%" stop-color="#8A6FD5" />
+          </linearGradient>
+      </defs>
+    </svg>
+    <div class="donut__copy">
+        <span class="donut__title">
+          <span class="js-donut-figure">80</span>
+          <span class="donut__spic">%</span>
+        </span>
+    </div>
+  </div>
+  <script>
+    class progress {
+      constructor (percent, radius, elemClass) {
+        this._percent = percent
+        this._radius = radius
+        this._elemClass = elemClass
+      }
+
+      get percent () {
+        return this._percent
+      }
+
+      get radius () {
+        return this._radius
+      }
+
+      get elemClass () {
+        return document.getElementsByClassName(this._elemClass)[0]
+      }
+
+      calcDashOffset() {
+        let circumference = (Math.PI * (2 * this.radius));
+        return Math.floor(circumference - ((this.percent / 100) * circumference));
+      }
+      createCSS() {
+        document.querySelectorAll(`.${this._elemClass} .donut__svg .donut__svg__circle--one`)[0].style.strokeDashoffset = this.calcDashOffset();
+      }
+
+      updateText() {
+        document.querySelectorAll(`.${this._elemClass} .js-donut-figure`)[0].innerText = Math.floor(this.percent);
+      }
+
+      updateFigure(newStat) {
+        this._percent = newStat;
+        this.updateText();
+        this.createCSS();
+      }
+      init() {
+        this.updateText();
+        
+        // setTimeout(() => {
+        this.createCSS();
+        // }, 1000);
+      }
+    }
+
+    const loading = new progress(0, 90, 'loading')
+    loading.init()
+    let i = 0
+    let temp = 1
+    const id = setInterval(() => {
+      if (i > 50 && i <= 90) {
+        temp = temp - 0.02 < 0.1 ? 0.1 : temp - 0.02
+      }
+      if (i >= 100) {
+        clearInterval(id)
+        return
+      }
+      i += temp
+      loading.updateFigure(i)
+    }, 16)
+  </script>
+  
+</body>
+</html>
